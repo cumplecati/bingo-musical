@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bingo Musical 🌸 Cumple Cati</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream:    #f6f1e8;
+      --cream2:   #efe8da;
+      --pink:     #cf9bb8;
+      --pink-dk:  #b97fa3;
+      --green:    #8fa07a;
+      --green-dk: #76886a;
+      --text:     #5a5650;
+      --text-lt:  #8a857d;
+      --border:   #e3d9c8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--cream);
+      background-image:
+        radial-gradient(circle at 8% 12%, rgba(207,155,184,0.10) 0%, transparent 40%),
+        radial-gradient(circle at 92% 18%, rgba(143,160,122,0.10) 0%, transparent 40%),
+        radial-gradient(circle at 15% 90%, rgba(143,160,122,0.08) 0%, transparent 35%),
+        radial-gradient(circle at 95% 85%, rgba(207,155,184,0.08) 0%, transparent 35%);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px 16px 48px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      text-align: center;
+      margin-bottom: 22px;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .age-num {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: clamp(3.2rem, 18vw, 5rem);
+      color: var(--pink);
+      line-height: 0.9;
+      letter-spacing: 2px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .cati-script {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: clamp(2.6rem, 14vw, 4rem);
+      color: var(--green);
+      margin-top: -1.4rem;
+      display: block;
+      transform: rotate(-2deg);
+    }
+
+    .header-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.3rem, 5vw, 1.7rem);
+      color: var(--text);
+      margin-top: 14px;
+      letter-spacing: 0.5px;
+    }
+    .header-title span { color: var(--pink-dk); font-style: normal; font-weight: 700; }
+
+    .header-sub {
+      font-size: 11px;
+      color: var(--text-lt);
+      letter-spacing: 3px;
+      margin-top: 8px;
+      text-transform: uppercase;
+    }
+    .header-sub::before, .header-sub::after {
+      content: '· ';
+    }
+
+    /* ── NAV ── */
+    .nav-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .nav-btn {
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--pink-dk);
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .nav-btn:hover {
+      background: var(--pink);
+      color: #fff;
+      border-color: var(--pink);
+    }
+
+    .card-counter {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--text-lt);
+      text-transform: uppercase;
+      min-width: 110px;
+      text-align: center;
+    }
+    .card-counter strong {
+      color: var(--pink-dk);
+      font-size: 16px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* ── BINGO CARD ── */
+    .card-wrap {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .card-frame {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 8px 30px rgba(180,140,120,0.08);
+      position: relative;
+    }
+
+    .card-frame::before {
+      content: '🌸';
+      position: absolute;
+      top: -14px;
+      left: -10px;
+      font-size: 22px;
+      transform: rotate(-15deg);
+    }
+    .card-frame::after {
+      content: '🌿';
+      position: absolute;
+      bottom: -12px;
+      right: -8px;
+      font-size: 24px;
+      transform: rotate(20deg) scaleX(-1);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .cell {
+      background: var(--cream2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 10px 6px;
+      cursor: pointer;
+      transition: background .15s, transform .1s, border-color .15s;
+      position: relative;
+      aspect-ratio: 1 / 0.95;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      text-align: center;
+    }
+    .cell:hover {
+      background: #fff;
+      border-color: var(--pink);
+    }
+    .cell:active { transform: scale(0.96); }
+
+    .cell-song {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.25;
+    }
+
+    .cell-artist {
+      font-size: 8.5px;
+      font-weight: 400;
+      color: var(--text-lt);
+      line-height: 1.2;
+    }
+
+    /* MARKED state */
+    .cell.marked {
+      background: var(--pink);
+      border-color: var(--pink);
+    }
+    .cell.marked .cell-song { color: #fff; }
+    .cell.marked .cell-artist { color: rgba(255,255,255,0.85); }
+    .cell.marked::after {
+      content: '🌸';
+      position: absolute;
+      top: 4px;
+      right: 6px;
+      font-size: 11px;
+      opacity: 0.85;
+    }
+
+    /* ── ACTIONS ── */
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+      justify-content: center;
+    }
+
+    .btn-bingo {
+      background: var(--pink);
+      color: #fff;
+      border: none;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 2px;
+      padding: 12px 30px;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+      box-shadow: 0 4px 14px rgba(207,155,184,0.35);
+    }
+    .btn-bingo:hover { background: var(--pink-dk); }
+    .btn-bingo:active { transform: scale(0.97); }
+
+    .btn-clear {
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--text-lt);
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 1px;
+      padding: 12px 18px;
+      border-radius: 40px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all .2s;
+    }
+    .btn-clear:hover { border-color: var(--green); color: var(--green-dk); }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(90,86,80,.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-box {
+      background: #fff;
+      border: 1px solid var(--pink);
+      border-radius: 20px;
+      padding: 42px 32px;
+      text-align: center;
+      max-width: 320px;
+      width: 90%;
+      transform: scale(0.9);
+      transition: transform .3s;
+      box-shadow: 0 12px 40px rgba(180,140,120,0.2);
+    }
+    .modal-overlay.show .modal-box { transform: scale(1); }
+
+    .modal-icon { font-size: 48px; margin-bottom: 14px; }
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: 2rem;
+      color: var(--pink-dk);
+      margin-bottom: 8px;
+    }
+    .modal-sub { font-size: 13px; color: var(--text-lt); margin-bottom: 24px; }
+    .modal-close {
+      background: var(--green);
+      color: #fff;
+      border: none;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 1px;
+      padding: 10px 26px;
+      border-radius: 40px;
+      cursor: pointer;
+    }
+    .modal-close:hover { background: var(--green-dk); }
+
+    /* ── FOOTER ── */
+    footer {
+      margin-top: 30px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--text-lt);
+      text-transform: uppercase;
+      text-align: center;
+      opacity: 0.7;
+    }
+
+    @keyframes shake {
+      0%,100%{transform:translateX(0)}
+      20%{transform:translateX(-6px)}
+      40%{transform:translateX(6px)}
+      60%{transform:translateX(-4px)}
+      80%{transform:translateX(4px)}
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="age-num">29<span class="cati-script">Cati</span></div>
+    <p class="header-title">bingo <span>musical</span> 🎶</p>
+    <p class="header-sub">tocá la canción cuando la escuches</p>
+  </header>
+
+  <div class="nav-wrap">
+    <button class="nav-btn" id="prev">‹</button>
+    <div class="card-counter">
+      cartón <strong id="counter-num">1</strong> / 15
+    </div>
+    <button class="nav-btn" id="next">›</button>
+  </div>
+
+  <div class="card-wrap">
+    <div class="card-frame">
+      <div class="grid" id="grid"></div>
+    </div>
+    <div class="actions">
+      <button class="btn-bingo" id="btn-bingo">🌸 ¡BINGO!</button>
+      <button class="btn-clear" id="btn-clear">limpiar cartón</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal">
+    <div class="modal-box">
+      <div class="modal-icon">🌸🎉</div>
+      <div class="modal-title">¡Bingo!</div>
+      <p class="modal-sub">¡Completaste el cartón! Feliz cumple Cati 💛</p>
+      <button class="modal-close" id="modal-close">¡Seguir jugando!</button>
+    </div>
+  </div>
+
+  <footer>cumple cati · 29 · bingo musical</footer>
+
+  <script>
+    // [song, artist]
+    const GRIDS = [
+      [["Flores Amarillas","Floricienta"],["As It Was","Harry Styles"],["La Pollera Amarilla","Gladys \"La bomba tucumana\""],["LA VILLA","Ryan Castro, Kapo, Gangsta"],["Perdóname","La Factoria, Eddy Lover"],["Bailan Rochas y Chetas","Nene Malo, Magenta"],["Cuando No Era Cantante","El Bogueto, Yung Beef"],["DUMBAI","CA7RIEL & Paco Amoroso"],["Llamado de Emergencia","Daddy Yankee"],["Tengo Tu Love","Sie7e"],["Ando Ganas (Llora Llora)","Los Piojos"],["Party In The U.S.A.","Miley Cyrus"]],
+      [["Una Cerveza","Rafaga"],["The Best of Both Worlds","Hannah Montana"],["Noche De Sexo","Wisin & Yandel, Romeo Santos"],["Rompecabezas de Amor","Las Pastillas del Abuelo"],["Down","TINI"],["Niña Bonita","Chino & Nacho"],["Tengo Tu Love","Sie7e"],["La Perla","ROSALÍA, Yahritza Y Su Esencia"],["Cuando No Era Cantante","El Bogueto, Yung Beef"],["Atrévete-Te-Te","Calle 13"],["Donde Estan las Gatas","Alex Gargolas, Daddy Yankee, Nicky Jam"],["Su Nombre en Mi Cuaderno","Makano, Josenid"]],
+      [["Noche De Sexo","Wisin & Yandel, Romeo Santos"],["Fuego","Intoxicados, Andrés Calamaro"],["Como Eran Las Cosas","Babasonicos"],["BAILE INoLVIDABLE","Bad Bunny"],["La Pollera Amarilla","Gladys \"La bomba tucumana\""],["Atrévete-Te-Te","Calle 13"],["Miénteme","TINI, Maria Becerra"],["Salió El Sol","Don Omar"],["36 Vidas","TINI"],["Corazón Sin Cara - En Vivo","Simon Aguirre"],["Flores Amarillas","Floricienta"],["Callaita","Bad Bunny, Tainy"]],
+      [["Mayonesa","Chocolate"],["LA VILLA","Ryan Castro, Kapo, Gangsta"],["Tu Sicaria","Ms Nina, Beauty Brain"],["Watermelon Sugar","Harry Styles"],["Fuiste Tú","Ricardo Arjona, Gaby Moreno"],["Pobre Diabla","Don Omar"],["As It Was","Harry Styles"],["Ojos De Dragón!","Las Pastillas del Abuelo"],["Ji Ji Ji","Patricio Rey y sus Redonditos de Ricota"],["Niña Bonita","Chino & Nacho"],["QLOO*","Young Cister, Kreamly"],["Ella Dijo","Estelares, Jorge Serrano"]],
+      [["Rompecabezas de Amor","Las Pastillas del Abuelo"],["Viejo Karma!","Las Pastillas del Abuelo"],["What Makes You Beautiful","One Direction"],["FAVORITA","Angela Torres"],["capaz (merengueton)","Alleh, Yorghaki"],["Dancing Queen","ABBA"],["Como Eran Las Cosas","Babasonicos"],["A Ver Si Pueden","Teenangels"],["El Efecto","Rauw Alejandro, Chencho Corleone"],["Atrévete-Te-Te","Calle 13"],["Bailan Rochas y Chetas","Nene Malo, Magenta"],["Golden","Harry Styles"]],
+      [["Corazón Sin Cara - En Vivo","Simon Aguirre"],["Puñaladas","Lauta, Amigo de Artistas, Tote"],["The Climb","Miley Cyrus"],["El Efecto","Rauw Alejandro, Chencho Corleone"],["Tu Falta De Querer","Mon Laferte"],["36 Vidas","TINI"],["A Ver Si Pueden","Teenangels"],["LA VILLA","Ryan Castro, Kapo, Gangsta"],["Flores Amarillas","Floricienta"],["As It Was","Harry Styles"],["Cuando No Era Cantante","El Bogueto, Yung Beef"],["BAILE INoLVIDABLE","Bad Bunny"]],
+      [["Corazón Sin Cara - En Vivo","Simon Aguirre"],["Tu Falta De Querer","Mon Laferte"],["As It Was","Harry Styles"],["Butakera","La Joaqui, Alan Gomez, EL NOBA"],["Hero (Unplugged)","Christopher Wilde"],["Te Pintaron Pajaritos","Yandar & Yostin, Andy Rivera"],["Salió El Sol","Don Omar"],["Tu Sicaria","Ms Nina, Beauty Brain"],["A Quien Le Importa","Thalia"],["Meneaito (Original)","Gaby"],["The Bitch Is Back","Elton John"],["Golden","Harry Styles"]],
+      [["Bar","TINI, L-Gante"],["A Quien Le Importa","Thalia"],["DtMF","Bad Bunny"],["Steal My Girl","One Direction"],["Su Nombre en Mi Cuaderno","Makano, Josenid"],["Flores Amarillas","Floricienta"],["Meneaito (Original)","Gaby"],["Yo Te Esperaré","Cali Y El Dandee"],["capaz (merengueton)","Alleh, Yorghaki"],["Cuando No Era Cantante","El Bogueto, Yung Beef"],["Corazón Sin Cara - En Vivo","Simon Aguirre"],["Pobre Diabla","Don Omar"]],
+      [["La Pollera Amarilla","Gladys \"La bomba tucumana\""],["Golden","Harry Styles"],["FAVORITA","Angela Torres"],["Hero (Unplugged)","Christopher Wilde"],["Carita Triste","Q' Lokura, Los Herrera"],["Niña Bonita","Chino & Nacho"],["Miénteme","TINI, Maria Becerra"],["Taboo","Don Omar"],["Watermelon Sugar","Harry Styles"],["Te Pintaron Pajaritos","Yandar & Yostin, Andy Rivera"],["Yo Te Esperaré","Cali Y El Dandee"],["Tu Sicaria","Ms Nina, Beauty Brain"]],
+      [["Hoy Te Vi","La Liga, Melodia Kallejera"],["Tu Falta De Querer","Mon Laferte"],["capaz (merengueton)","Alleh, Yorghaki"],["Carita Triste","Q' Lokura, Los Herrera"],["...Baby One More Time","Britney Spears"],["Salió El Sol","Don Omar"],["Bad Romance","Lady Gaga"],["SUPERESTRELLA","Aitana"],["Bailan Rochas y Chetas","Nene Malo, Magenta"],["Ella Dijo","Estelares, Jorge Serrano"],["Yo Te Esperaré","Cali Y El Dandee"],["La Pollera Amarilla","Gladys \"La bomba tucumana\""]],
+      [["Te Pintaron Pajaritos","Yandar & Yostin, Andy Rivera"],["Ella Dijo","Estelares, Jorge Serrano"],["Llamado de Emergencia","Daddy Yankee"],["BAILE INoLVIDABLE","Bad Bunny"],["Dos Amantes","TINI, Ulises Bueno"],["Butakera","La Joaqui, Alan Gomez, EL NOBA"],["SUPERESTRELLA","Aitana"],["Carita Triste","Q' Lokura, Los Herrera"],["Hero (Unplugged)","Christopher Wilde"],["Watermelon Sugar","Harry Styles"],["Bar","TINI, L-Gante"],["Pobre Diabla","Don Omar"]],
+      [["Ji Ji Ji","Patricio Rey y sus Redonditos de Ricota"],["La Perla","ROSALÍA, Yahritza Y Su Esencia"],["Taboo","Don Omar"],["BAILE INoLVIDABLE","Bad Bunny"],["36 Vidas","TINI"],["Atrévete-Te-Te","Calle 13"],["Perdóname","La Factoria, Eddy Lover"],["Te Pintaron Pajaritos","Yandar & Yostin, Andy Rivera"],["Me Gusta","Miranda!, TINI"],["Donde Estan las Gatas","Alex Gargolas, Daddy Yankee, Nicky Jam"],["Tu jardín con enanitos","Roze Oficial, Max Carra, Valen"],["Salió El Sol","Don Omar"]],
+      [["Bar","TINI, L-Gante"],["Salgo Pa' la Calle","Daddy Yankee, Randy Nota Loca"],["The Bitch Is Back","Elton John"],["Hoy Te Vi","La Liga, Melodia Kallejera"],["DtMF","Bad Bunny"],["Yo Te Esperaré","Cali Y El Dandee"],["Donde Estan las Gatas","Alex Gargolas, Daddy Yankee, Nicky Jam"],["Steal My Girl","One Direction"],["Rompecabezas de Amor","Las Pastillas del Abuelo"],["Tu Sicaria","Ms Nina, Beauty Brain"],["Watermelon Sugar","Harry Styles"],["El Efecto","Rauw Alejandro, Chencho Corleone"]],
+      [["Tu jardín con enanitos","Roze Oficial, Max Carra, Valen"],["Gasolina","Daddy Yankee"],["Tengo Tu Love","Sie7e"],["Baby","Justin Bieber, Ludacris"],["Nunca quise","Intoxicados"],["Miénteme","TINI, Maria Becerra"],["Ella Dijo","Estelares, Jorge Serrano"],["La Pollera Amarilla","Gladys \"La bomba tucumana\""],["Perdóname","La Factoria, Eddy Lover"],["Te Amo","Makano"],["MOTINHA 2.0 (Mete Marcha)","DENNIS, Luísa Sonza, Emilia"],["Flores Amarillas","Floricienta"]],
+      [["FAVORITA","Angela Torres"],["QLOO*","Young Cister, Kreamly"],["Watermelon Sugar","Harry Styles"],["Atrévete-Te-Te","Calle 13"],["Party In The U.S.A.","Miley Cyrus"],["The Bitch Is Back","Elton John"],["Meneaito (Original)","Gaby"],["Fuego","Intoxicados, Andrés Calamaro"],["Corazón Sin Cara - En Vivo","Simon Aguirre"],["Hay Otro en Mi Vida","La Factoria"],["Una Cerveza","Rafaga"],["Tu jardín con enanitos","Roze Oficial, Max Carra, Valen"]]
+    ];
+
+    // State
+    let current = 0;
+    const marked = GRIDS.map(() => new Set());
+
+    const gridEl = document.getElementById('grid');
+    const counterEl = document.getElementById('counter-num');
+    const modal = document.getElementById('modal');
+
+    function render() {
+      const songs = GRIDS[current];
+      const state = marked[current];
+      gridEl.innerHTML = '';
+      songs.forEach((s, i) => {
+        const cell = document.createElement('div');
+        cell.className = 'cell' + (state.has(i) ? ' marked' : '');
+        cell.innerHTML = `
+          <div class="cell-song">${s[0]}</div>
+          <div class="cell-artist">${s[1]}</div>
+        `;
+        cell.addEventListener('click', () => toggle(i));
+        gridEl.appendChild(cell);
+      });
+      counterEl.textContent = current + 1;
+    }
+
+    function toggle(i) {
+      const s = marked[current];
+      s.has(i) ? s.delete(i) : s.add(i);
+      render();
+    }
+
+    function checkBingo() {
+      const s = marked[current];
+      // 3 cols x 4 rows grid (12 cells, indices 0-11)
+      // rows: [0,1,2],[3,4,5],[6,7,8],[9,10,11]
+      // cols: [0,3,6,9],[1,4,7,10],[2,5,8,11]
+      const wins = [
+        [0,1,2],[3,4,5],[6,7,8],[9,10,11],
+        [0,3,6,9],[1,4,7,10],[2,5,8,11]
+      ];
+      return wins.some(line => line.every(idx => s.has(idx)));
+    }
+
+    document.getElementById('btn-bingo').addEventListener('click', () => {
+      if (checkBingo()) {
+        modal.classList.add('show');
+      } else {
+        gridEl.style.animation = 'none';
+        gridEl.offsetHeight;
+        gridEl.style.animation = 'shake .3s ease';
+      }
+    });
+
+    document.getElementById('btn-clear').addEventListener('click', () => {
+      marked[current].clear();
+      render();
+    });
+
+    document.getElementById('prev').addEventListener('click', () => {
+      current = (current - 1 + GRIDS.length) % GRIDS.length;
+      render();
+    });
+    document.getElementById('next').addEventListener('click', () => {
+      current = (current + 1) % GRIDS.length;
+      render();
+    });
+
+    document.getElementById('modal-close').addEventListener('click', () => {
+      modal.classList.remove('show');
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') document.getElementById('prev').click();
+      if (e.key === 'ArrowRight') document.getElementById('next').click();
+      if (e.key === 'Escape') modal.classList.remove('show');
+    });
+
+    render();
+  </script>
+</body>
+</html>
